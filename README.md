@@ -48,7 +48,7 @@ db.adminCommand( { shardCollection: "DatabaseForTest.CollectionForTest", key: { 
 
 ```
 
-<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/init.jpg" style="width: 100%;" />
+<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/init.png" style="width: 100%;" />
 
 ### Verify
 
@@ -60,7 +60,7 @@ sh.status()
 ```
 
 
-<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/init.jpg" style="width: 100%;" />
+<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/init.png" style="width: 100%;" />
 
 
 - **Verify status of replica set for each shard**
@@ -87,9 +87,9 @@ db.CollectionForTest.getShardDistribution()
 ```bash
 http://localhost:1234
 ```
-<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/screen1.jpg" style="width: 100%;" />
-<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/screen2.jpg" style="width: 100%;" />
-<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/screen3.jpg" style="width: 100%;" />
+<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/screen1.png" style="width: 100%;" />
+<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/screen2.png" style="width: 100%;" />
+<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/screen3.png" style="width: 100%;" />
 
 ### Resetting the Cluster
 To remove all data and re-initialize the cluster, make sure the containers are stopped and then:
