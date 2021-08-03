@@ -1,0 +1,191 @@
+version: '3'
+
+## Network
+networks:
+  mongodb-replicaset-network:
+    name: mongodb-replicaset-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.10.10.0/27"
+services:
+
+## Router
+  router-1:
+    image: mongo:4.0
+    container_name: router-1
+    command: mongos --port 27017 --configdb rs-config-server/configserver-1:27017,configserver-2:27017,configserver-3:27017 --bind_ip_all
+    ports:
+      - 27717:27017
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      mongodb-replicaset-network:
+  router-2:
+    image: mongo:4.0
+    container_name: router-2
+    command: mongos --port 27017 --configdb rs-config-server/configserver-1:27017,configserver-2:27017,configserver-3:27017 --bind_ip_all
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27718:27017
+    links:
+      - router-1
+    networks:
+      mongodb-replicaset-network:
+
+## Config Servers
+  configserver-1:
+    image: mongo:4.0
+    container_name: mongo-config-1
+    command: mongod --port 27017 --configsvr --replSet rs-config-server
+    volumes:
+      - ./scripts:/scripts 
+    ports:
+      - 27719:27017
+    links:
+      - shard-1-a
+      - shard-2-a
+      - shard-3-a
+    networks:
+      mongodb-replicaset-network:
+  configserver-2:
+    image: mongo:4.0
+    container_name: mongo-config-2 
+    command: mongod --port 27017 --configsvr --replSet rs-config-server
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27720:27017
+    links:
+      - configserver-1
+    networks:
+      mongodb-replicaset-network:
+  configserver-3:
+    image: mongo:4.0
+    container_name: mongo-config-3 
+    command: mongod --port 27017 --configsvr --replSet rs-config-server
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27721:27017
+    links:
+      - configserver-2
+    networks:
+      mongodb-replicaset-network:
+
+## Shards
+  ## Shards 1
+   
+  shard-1-a:
+    image: mongo:4.0
+    container_name: shard-1-node-a
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-1
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27722:27017
+    links:
+      - shard-1-b
+      - shard-1-c
+    networks:
+      mongodb-replicaset-network:
+  shard-1-b:
+    image: mongo:4.0
+    container_name: shard-1-node-b
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-1
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27723:27017
+    networks:
+      mongodb-replicaset-network:
+  shard-1-c:
+    image: mongo:4.0
+    container_name: shard-1-node-c
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-1
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27724:27017
+    networks:
+      mongodb-replicaset-network:
+  ## Shards 2
+  shard-2-a:
+    image: mongo:4.0
+    container_name: shard-2-node-a
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-2
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27725:27017
+    links:
+      - shard-2-b
+      - shard-2-c
+    networks:
+      mongodb-replicaset-network:
+  shard-2-b:
+    image: mongo:4.0
+    container_name: shard-2-node-b
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-2
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27726:27017
+    networks:
+      mongodb-replicaset-network:
+  shard-2-c:
+    image: mongo:4.0
+    container_name: shard-2-node-c
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-2
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27727:27017
+    networks:
+      mongodb-replicaset-network:
+  ## Shards 3
+  shard-3-a:
+    image: mongo:4.0
+    container_name: shard-3-node-a
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-3
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27728:27017
+    links:
+      - shard-3-b
+      - shard-3-c
+    networks:
+      mongodb-replicaset-network:
+  shard-3-b:
+    image: mongo:4.0
+    container_name: shard-3-node-b
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-3
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27729:27017
+    networks:
+      mongodb-replicaset-network:
+  shard-3-c:
+    image: mongo:4.0
+    container_name: shard-3-node-c
+    command: mongod --port 27017 --shardsvr --replSet shard-rs-3
+    volumes:
+      - ./scripts:/scripts
+    ports:
+      - 27730:27017
+    networks:
+      mongodb-replicaset-network:
+
+## Administrator panel
+  admin-mongo:
+    image: "mrvautin/adminmongo"
+    ports:
+      - "1234:1234"
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      mongodb-replicaset-network:
