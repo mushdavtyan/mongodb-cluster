@@ -60,7 +60,7 @@ sh.status()
 ```
 
 
-<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/init.png" style="width: 100%;" />
+<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/enable-db.png" style="width: 100%;" />
 
 
 - **Verify status of replica set for each shard**
@@ -72,6 +72,7 @@ docker exec -it shard-1-node-a bash -c "echo 'rs.status()' | mongo --port 27017"
 docker exec -it shard-2-node-a bash -c "echo 'rs.status()' | mongo --port 27017" 
 docker exec -it shard-3-node-a bash -c "echo 'rs.status()' | mongo --port 27017" 
 ```
+<img src="https://raw.githubusercontent.com/mushdavtyan/mongodb-cluster/main/images/verify.png" style="width: 100%;" />
 
 - **Check database status**
 ```bash
