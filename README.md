@@ -21,6 +21,7 @@ docker-compose up -d
 
 - **Step 2: Initialize the replica sets (config servers and shards) and routers**
 
+
 ```bash
 docker-compose exec configserver-1 sh -c "mongo < /scripts/init-configserver.js"
 docker-compose exec shard-1-a sh -c "mongo < /scripts/shard-init-1.js"
