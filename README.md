@@ -84,6 +84,7 @@ db.CollectionForTest.getShardDistribution()
 ```
 ### Check in the browser
 
+
 > You can use the dabase web ui with connecting by the browser
 
 ```bash
