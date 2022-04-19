@@ -2,7 +2,6 @@ Sharded Mongo Cluster
 =========================================
 
 ### Mongo Components
-
 * Config Server (3 member replica set): `configserver-1`,`configserver-2`,`configserver-3`
 * 3 Shards (each a 3 member replica set):
 	* `shard-1-a`,`shard-1-b`, `shard-1-c`
